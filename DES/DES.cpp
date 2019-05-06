@@ -26,8 +26,6 @@ void crypto::DESAlgorithm(Byte text[64], Byte key[64], Feistel::Mode m)
 		//3. Feistel function
 		Feistel::FeistelFunction(leftBlock,rightBlock,CKey,DKey,m);
 
-		//-------Until here everything should work correctly!-------
-
 		//Combine the two halfs to a 64 bit value
 		Byte arr[64];	//This will contain all 64 bits of the calculated value
 		for(int i = 0;i<64;i++)
