@@ -24,11 +24,11 @@ ENDIF(BOTAN_FOUND)
 include_directories("${BOTAN_INCLUDE_DIRS}")
 
 add_executable(rsa-encrypt
-        rsa-encrypt.cpp)
+        rsa-encrypt.cpp rsa-impl-replacement.h)
 add_executable(rsa-decrypt
-        rsa-decrypt.cpp)
+        rsa-decrypt.cpp rsa-impl-replacement.h)
 add_executable(rsa-keygen
-        rsa-keygen.cpp)
+        rsa-keygen.cpp rsa-impl-replacement.h)
 
 target_link_libraries(rsa-encrypt "${BOTAN_LIBRARIES}" -static-libgcc -static-libstdc++ Threads::Threads)
 target_link_libraries(rsa-decrypt "${BOTAN_LIBRARIES}" -static-libgcc -static-libstdc++ Threads::Threads)

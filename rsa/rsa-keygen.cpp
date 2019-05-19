@@ -2,6 +2,7 @@
 // Created by Florian on 26.04.19.
 //
 
+#include "rsa-impl-replacement.h"
 #include <botan/rsa.h>
 #include <botan/system_rng.h>
 #include <botan/bigint.h>
@@ -28,10 +29,16 @@ int main(int argc, char** argv) {
     // create the random numbers
     uint64_t bits_p = (bitsize + 1) /2;
     uint64_t bits_q = bitsize - bits_p;
-    const BigInt p (system_rng(), bits_p);
-    const BigInt q (system_rng(), bits_q);
-    const BigInt exp = 65537;
-    RSA_PrivateKey privateKey (p, q, exp);
+    BigInt m_p;
+    BigInt m_q;
+    BigInt m_n;
+    BigInt exp = 65537;
+    do {
+        m_p = generate_rsa_prime_allow_small_keys(system_rng(), system_rng(), bits_p, exp);
+        m_q = generate_rsa_prime_allow_small_keys(system_rng(), system_rng(), bits_q, exp);
+        m_n = m_p * m_q;
+    } while(m_n.bits() != bitsize);
+    RSA_PrivateKey privateKey (m_p, m_q, exp);
 
     std::ofstream pkFile("private.pem", std::ios::out | std::ios::trunc);
     if (!pkFile.is_open()) {
