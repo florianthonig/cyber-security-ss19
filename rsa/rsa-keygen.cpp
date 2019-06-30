@@ -59,11 +59,11 @@ int main(int argc, char** argv) {
     }
     BigInt e = inverse_mod(d, phi);
     RSA_PrivateKey privateKey(m_p, m_q, e, d, m_n);
-    std::cout << "p: " << m_p << std::endl;
+    /*std::cout << "p: " << m_p << std::endl;
     std::cout << "q: " << m_q << std::endl;
     std::cout << "phi: " << phi << std::endl;
     std::cout << "e: " << e << std::endl;
-    std::cout << "d: " << privateKey.get_d() << std::endl;
+    std::cout << "d: " << privateKey.get_d() << std::endl;*/
 
     std::ofstream pkFile("private.pem", std::ios::out | std::ios::trunc);
     if (!pkFile.is_open()) {

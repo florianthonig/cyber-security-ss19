@@ -28,9 +28,6 @@ BigInt pollard(BigInt &x0, BigInt &c, const BigInt &n) {
         x2 = f(f(x2, c), c) % n;
         tmp = gcd(x2-x1, n);
         i++;
-        if (i % 500 == 0) {
-            std::cout << "i: " << i << std::endl;
-        }
     }
     return tmp;
 }
