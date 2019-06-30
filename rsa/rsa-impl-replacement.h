@@ -12,6 +12,56 @@
 
 using namespace Botan;
 
+BigInt power(const BigInt x, const BigInt n) {
+    BigInt pow = 1;
+    for (BigInt i = 0; i < n; i++) {
+        pow *= x;
+    }
+    return pow;
+}
+
+int sqrt( int N )
+{
+    int n, p, low, high;
+    if( 2 > N )
+        return( N );
+    low  = 0;
+    high = N;
+    while( high > low + 1 )
+    {
+        n = (high + low) / 2;
+        p = n * n;
+        if( N < p )
+            high = n;
+        else if( N > p )
+            low = n;
+        else
+            break;
+    }
+    return( N == p ? n : low );
+}
+
+BigInt sqrt( BigInt N )
+{
+    BigInt n, p, low, high;
+    if( 2 > N )
+        return( N );
+    low  = 0;
+    high = N;
+    while( high > low + 1 )
+    {
+        n = (high + low) / 2;
+        p = n * n;
+        if( N < p )
+            high = n;
+        else if( N > p )
+            low = n;
+        else
+            break;
+    }
+    return( N == p ? n : low );
+}
+
 class Prime_Sieve final
 {
 public:

@@ -12,12 +12,13 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/modules")
 
 pkg_check_modules(BOTAN botan-2)
 IF(BOTAN_FOUND)
-    message(INFO "Botan found!")
+    message("Botan found!")
 ELSE(BOTAN_FOUND)
-    message(FATAL_ERROR "Botan not found!")
+    message("Botan not found!")
 ENDIF(BOTAN_FOUND)
 
 find_package(GMP REQUIRED)
+find_package(OpenMP)
 
 
 # Suchen nach Botan
@@ -39,8 +40,16 @@ add_executable(pollard
 add_executable(knj
         knj.cpp rsa-impl-replacement.h)
 
+add_executable(sieve
+        sieve.cpp bigint.h rsa-impl-replacement.h)
+
+add_executable(shor
+        shor.cpp rsa-impl-replacement.h)
+
 target_link_libraries(rsa-encrypt "${BOTAN_LIBRARIES}" -static-libgcc -static-libstdc++ Threads::Threads)
 target_link_libraries(rsa-decrypt "${BOTAN_LIBRARIES}" -static-libgcc -static-libstdc++ Threads::Threads)
 target_link_libraries(rsa-keygen "${BOTAN_LIBRARIES}" -static-libgcc -static-libstdc++ Threads::Threads)
 target_link_libraries(pollard "${BOTAN_LIBRARIES}" -static-libgcc -static-libstdc++ Threads::Threads)
 target_link_libraries(knj "${BOTAN_LIBRARIES}" "${GMP_LIBRARIES}" -static-libgcc -static-libstdc++ Threads::Threads)
+target_link_libraries(sieve "${BOTAN_LIBRARIES}" OpenMP::OpenMP_CXX -static-libgcc -static-libstdc++ Threads::Threads)
+target_link_libraries(shor "${BOTAN_LIBRARIES}" -static-libgcc -static-libstdc++ Threads::Threads)
