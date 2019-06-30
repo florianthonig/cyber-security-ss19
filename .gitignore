@@ -2,3 +2,5 @@
 rsa/\.idea/
 
 rsa/cmake-build-debug/
+
+rsa/cmake-build-mingw/CMakeFiles/
