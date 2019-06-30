@@ -14,6 +14,7 @@
 #include <iostream>
 #include <fstream>
 #include <gmp.h>
+#include <chrono>
 
 using namespace Botan;
 
@@ -35,15 +36,19 @@ int main(int argc, char** argv) {
     }
     RSA_PublicKey key(pKey->algorithm_identifier(), pKey->public_key_bits());
     std::cout << "N: " << key.get_n() << std::endl;
+    
+    using clock = std::chrono::system_clock;
+    using sec = std::chrono::duration<double>;
 
-    char buffer[100];
+    const auto before = clock::now();
+    char buffer[1000];
     mpz_t n;
     mpz_init (n);
     mpz_set_str(n, key.get_n().to_dec_string().c_str(), 10);
     mpz_t root;
     mpz_init (root);
     mpz_sqrt (root, n);
-    mpz_get_str(buffer, 10, root);
+    //mpz_get_str(buffer, 10, root);
     //std::cout << buffer << std::endl;
     mpz_t mod;
     mpz_init (mod);
@@ -65,9 +70,12 @@ int main(int argc, char** argv) {
                 std::cout << "y: " << buffer;
                 mpz_get_str(buffer, 10, root);
                 std::cout << " x: " << buffer << std::endl;
+                break;
             }
         }
         mpz_set_si(two, 2);
         mpz_sub(root, root, two);
     } while (!mpz_divisible_p(n, root));
+    const sec duration = clock::now() - before;
+    std::cout << "Algorithm took " << duration.count() << " seconds" << std::endl;
 }

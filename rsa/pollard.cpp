@@ -9,6 +9,7 @@
 #include <botan/numthry.h>
 #include <iostream>
 #include <fstream>
+#include <chrono>
 
 using namespace Botan;
 
@@ -52,6 +53,11 @@ int main(int argc, char** argv) {
     RSA_PublicKey key(pKey->algorithm_identifier(), pKey->public_key_bits());
     std::cout << "N: " << key.get_n() << std::endl;
 
+    using clock = std::chrono::system_clock;
+    using sec = std::chrono::duration<double>;
+
+    const auto before = clock::now();
+
     BigInt x0(system_rng(), key.get_n().bits());
     while ( x0 > key.get_n()) {
         x0 = BigInt(system_rng(), key.get_n().bits());
@@ -64,5 +70,7 @@ int main(int argc, char** argv) {
         }
         res = pollard(x0, c, key.get_n());
     }
+    const sec duration = clock::now() - before;
     std::cout << res.to_dec_string() << " x0:" << x0 << std::endl;
+    std::cout << "Algorithm took " << duration.count() << " seconds" << std::endl;
 }
