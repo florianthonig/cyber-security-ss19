@@ -46,6 +46,9 @@ add_executable(sieve
 add_executable(shor
         shor.cpp rsa-impl-replacement.h)
 
+add_executable(wiener
+        wiener.cpp rsa-impl-replacement.h rsa-math.h)
+
 target_link_libraries(rsa-encrypt "${BOTAN_LIBRARIES}" -static-libgcc -static-libstdc++ Threads::Threads)
 target_link_libraries(rsa-decrypt "${BOTAN_LIBRARIES}" -static-libgcc -static-libstdc++ Threads::Threads)
 target_link_libraries(rsa-keygen "${BOTAN_LIBRARIES}" -static-libgcc -static-libstdc++ Threads::Threads)
@@ -53,3 +56,4 @@ target_link_libraries(pollard "${BOTAN_LIBRARIES}" -static-libgcc -static-libstd
 target_link_libraries(knj "${BOTAN_LIBRARIES}" "${GMP_LIBRARIES}" -static-libgcc -static-libstdc++ Threads::Threads)
 target_link_libraries(sieve "${BOTAN_LIBRARIES}" OpenMP::OpenMP_CXX -static-libgcc -static-libstdc++ Threads::Threads)
 target_link_libraries(shor "${BOTAN_LIBRARIES}" -static-libgcc -static-libstdc++ Threads::Threads)
+target_link_libraries(wiener "${BOTAN_LIBRARIES}" -static-libgcc -static-libstdc++ Threads::Threads)

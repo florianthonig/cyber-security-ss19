@@ -21,3 +21,5 @@ ECHO ==== running pollard rho attack ====
 pollard public.pem
 ECHO ==== running quadratic sieve attack ====
 sieve public.pem
+ECHO ==== running wiener attack ====
+wiener public.pem

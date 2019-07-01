@@ -49,9 +49,10 @@ int main(int argc, char** argv) {
     BigInt d;
     BigInt phi = (m_p - 1) * (m_q - 1);
     if (gen_wiener) {
+        BigInt max = sqrt(sqrt(m_n))/3;
         do {
-            d = BigInt(system_rng(), sqrt(bits_p));
-        } while (d >= sqrt(sqrt(m_n))/3 || gcd(d, phi) != 1);
+            d = BigInt(system_rng(), max.bits());
+        } while (d >= max || gcd(d, phi) != 1);
     } else {
         do {
             d = BigInt(system_rng(), bits_p + sqrt(sqrt(bits_q)));
@@ -59,11 +60,11 @@ int main(int argc, char** argv) {
     }
     BigInt e = inverse_mod(d, phi);
     RSA_PrivateKey privateKey(m_p, m_q, e, d, m_n);
-    /*std::cout << "p: " << m_p << std::endl;
+    std::cout << "p: " << m_p << std::endl;
     std::cout << "q: " << m_q << std::endl;
     std::cout << "phi: " << phi << std::endl;
     std::cout << "e: " << e << std::endl;
-    std::cout << "d: " << privateKey.get_d() << std::endl;*/
+    std::cout << "d: " << privateKey.get_d() << std::endl;
 
     std::ofstream pkFile("private.pem", std::ios::out | std::ios::trunc);
     if (!pkFile.is_open()) {
